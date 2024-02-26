@@ -1,16 +1,27 @@
+import React, {useState} from 'react';
 import './App.css';
 
 function App() {
+
+  const [todos, setTodos] = useState(['task 1', 'task 2', 'task 3']);
+  const [input, setInput] = useState('');
+
+  const addTodo = (event => {
+    //on click of the button
+    console.log("Button clicked");
+    setTodos([...todos, input]);
+  })
   return (
     <div className="App">
       <h1>Hello World!</h1>
-      <input />
-      <button>Add Todo</button>
+      <input value={input} onChange={event => setInput(event.target.value)}/>
+      {/* <input /> */}
+      <button onClick={addTodo}>Add Todo</button>
 
       <ul>
-        <li>Item 1</li>
-        <li>Item 2</li>
-        <li>Item 3</li>
+        {todos.map(todo => (
+          <li>{todo}</li>
+        ))}
       </ul>
     </div>
   );
