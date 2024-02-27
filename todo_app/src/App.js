@@ -8,15 +8,19 @@ function App() {
 
   const addTodo = (event => {
     //on click of the button
+    event.preventDefault(); // will stop the page refresh
     console.log("Button clicked");
     setTodos([...todos, input]);
+    setInput(['']);
   })
   return (
     <div className="App">
       <h1>Hello World!</h1>
+      <form>
       <input value={input} onChange={event => setInput(event.target.value)}/>
       {/* <input /> */}
       <button onClick={addTodo}>Add Todo</button>
+      </form>
 
       <ul>
         {todos.map(todo => (
