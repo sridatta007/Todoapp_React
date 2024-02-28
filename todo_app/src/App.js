@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
+import {Button, FormControl, Input, InputLabel} from '@material-ui/core'
+import Todo from './Todo'
 
 function App() {
 
@@ -10,21 +12,26 @@ function App() {
     //on click of the button
     event.preventDefault(); // will stop the page refresh
     console.log("Button clicked");
-    setTodos([...todos, input]);
-    setInput(['']);
+    setTodos([...todos, input]); //Spread Operator for getting all the pre values
+    setInput(''); //To clear up the input
   })
   return (
     <div className="App">
       <h1>Hello World!</h1>
       <form>
-      <input value={input} onChange={event => setInput(event.target.value)}/>
-      {/* <input /> */}
-      <button onClick={addTodo}>Add Todo</button>
+        <FormControl>
+          <InputLabel>Write a Todo</InputLabel>
+          <Input value={input} onChange={event => setInput(event.target.value)}></Input>
+        </FormControl>
+        <Button disabled={!input} type="submit" onClick={addTodo} variant="contained" color="primary">
+            Add Todo
+        </Button>
       </form>
 
       <ul>
         {todos.map(todo => (
-          <li>{todo}</li>
+          <Todo text={todo}/>   //created Component and used props
+          // <li>{todo}</li>
         ))}
       </ul>
     </div>
