@@ -1,17 +1,26 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {Button, FormControl, Input, InputLabel} from '@material-ui/core'
 import Todo from './Todo'
+import db from './firebase'
 
 function App() {
 
-  const [todos, setTodos] = useState(['task 1', 'task 2', 'task 3']);
+  const [todos, setTodos] = useState([]);
   const [input, setInput] = useState('');
+
+  //when app loads, load data from db
+  useEffect(() => {
+    console.log("here")
+    db.collection('todos').onSnapshot(snapshot => {
+      console.log(snapshot.docs.map(doc => doc.data().todo))
+      setTodos(snapshot.docs.map(doc => doc.data().todo))
+    })
+  }, [input]);
 
   const addTodo = (event => {
     //on click of the button
     event.preventDefault(); // will stop the page refresh
-    console.log("Button clicked");
     setTodos([...todos, input]); //Spread Operator for getting all the pre values
     setInput(''); //To clear up the input
   })
@@ -31,7 +40,6 @@ function App() {
       <ul>
         {todos.map(todo => (
           <Todo text={todo}/>   //created Component and used props
-          // <li>{todo}</li>
         ))}
       </ul>
     </div>
