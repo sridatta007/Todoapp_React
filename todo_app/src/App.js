@@ -11,12 +11,11 @@ function App() {
 
   //when app loads, load data from db
   useEffect(() => {
-    console.log("here")
     db.collection('todos').onSnapshot(snapshot => {
       console.log(snapshot.docs.map(doc => doc.data().todo))
       setTodos(snapshot.docs.map(doc => doc.data().todo))
     })
-  }, [input]);
+  }, []);
 
   const addTodo = (event => {
     //on click of the button
