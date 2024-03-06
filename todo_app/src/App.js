@@ -3,6 +3,8 @@ import './App.css';
 import {Button, FormControl, Input, InputLabel} from '@material-ui/core'
 import Todo from './Todo'
 import db from './firebase'
+import firebase from './firebase';
+import 'firebase/firestore';
 
 function App() {
 
@@ -21,7 +23,11 @@ function App() {
   const addTodo = (event => {
     //on click of the button
     event.preventDefault(); // will stop the page refresh
-    setTodos([...todos, input]); //Spread Operator for getting all the pre values
+    db.collection('todos').add({
+      todo: input
+      //timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    //setTodos([...todos, input]); //Spread Operator for getting all the pre values
     setInput(''); //To clear up the input
   })
   return (
