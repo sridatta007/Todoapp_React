@@ -3,8 +3,8 @@ import './App.css';
 import {Button, FormControl, Input, InputLabel} from '@material-ui/core'
 import Todo from './Todo'
 import db from './firebase'
-import firebase from './firebase';
-import 'firebase/firestore';
+import { serverTimestamp } from 'firebase/firestore';
+
 
 function App() {
 
@@ -13,9 +13,8 @@ function App() {
 
   //when app loads, load data from db
   useEffect(() => {
-    db.collection('todos').onSnapshot(snapshot => {
-      console.log(snapshot.docs.map(doc => doc.data().todo))
-      setTodos(snapshot.docs.map(doc => doc.data().todo))
+    db.collection('todos').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+      setTodos(snapshot.docs.map(doc =>({id: doc.id ,todo:doc.data().todo}) ))
     })
   }, []);
 
@@ -23,10 +22,10 @@ function App() {
     //on click of the button
     event.preventDefault(); // will stop the page refresh
     db.collection('todos').add({
-      todo: input
-      //timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      todo: input,
+      timestamp: serverTimestamp()
     })
-    //setTodos([...todos, input]); //Spread Operator for getting all the pre values
+    // setTodos([...todos, input]); //Spread Operator for getting all the pre values
     setInput(''); //To clear up the input
   })
   return (
@@ -44,7 +43,7 @@ function App() {
 
       <ul>
         {todos.map(todo => (
-          <Todo text={todo}/>   //created Component and used props
+          <Todo todo={todo}/>   //created Component and used props
         ))}
       </ul>
     </div>
