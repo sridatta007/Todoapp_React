@@ -50,9 +50,8 @@ function Todo(props) {
     aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <h1>I am Modal</h1>
         <input placeholder={props.todo.todo} value={input} onChange={event => setInput(event.target.value)}/>
-        <Button onClick={updateTodo}>Update Todo</Button>
+        <Button onClick={updateTodo}>Update</Button>
       </Box>
     </Modal>
     <List className='todo__list'>
